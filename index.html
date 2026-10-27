@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kumpulan materi fisika SMA, rumus, contoh soal, latihan, dan simulasi interaktif.">
+  <meta name="theme-color" content="#0b3970">
+  <title>FisikaKu | Belajar Fisika Lebih Mudah</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --navy: #0b2e59;
+      --blue: #1677e8;
+      --cyan: #35c5f3;
+      --ink: #132d4f;
+      --muted: #58708e;
+      --pale: #f2f7fc;
+      --white: #fff;
+      --line: #e4edf6;
+      --radius: 20px;
+      --shadow: 0 12px 34px rgba(16, 53, 91, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .container { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px); border-bottom: 1px solid rgba(220,232,244,.8);
+    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 1.3rem; font-weight: 850; letter-spacing: -.04em; white-space: nowrap; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: #fff; background: linear-gradient(135deg, var(--blue), #3ac8f2); }
+    .brand-mark svg { width: 25px; height: 25px; }
+    .navlinks { display: flex; align-items: center; gap: 28px; color: #405d7e; font-size: .94rem; }
+    .navlinks a:hover, .navlinks a.active { color: var(--blue); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .icon-button, .menu-toggle { display: none; border: 0; background: transparent; color: var(--ink); padding: 8px; cursor: pointer; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 18px; border: 0; border-radius: 999px; font-weight: 750; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: white; background: linear-gradient(100deg, #2588f5, #3b70f4); box-shadow: 0 8px 20px rgba(35,123,235,.22); }
+    .button-light { color: var(--navy); background: white; }
+    .hero {
+      position: relative; overflow: hidden; color: white;
+      background:
+        radial-gradient(ellipse at 82% 28%, rgba(35,143,255,.35), transparent 30%),
+        radial-gradient(ellipse at 65% 95%, rgba(27,113,214,.32), transparent 40%),
+        linear-gradient(120deg, #082e5c 0%, #073b79 56%, #071e48 100%);
+    }
+    .hero:before, .hero:after { content: ""; position: absolute; border: 1px solid rgba(95,195,255,.18); border-radius: 50%; pointer-events: none; }
+    .hero:before { width: 480px; height: 480px; right: -70px; top: -230px; }
+    .hero:after { width: 620px; height: 620px; right: -120px; top: -300px; }
+    .hero-grid { position: relative; z-index: 1; min-height: 390px; display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 32px; padding-block: 58px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; font-weight: 850; color: #6c89ad; }
+    .hero .eyebrow { color: #b8eaff; letter-spacing: .04em; text-transform: none; font-size: .85rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); padding: 6px 12px; border-radius: 999px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 18px 0 14px; font-size: clamp(2.25rem, 4.5vw, 3.55rem); line-height: 1.1; letter-spacing: -.045em; max-width: 670px; }
+    .gradient-text { color: #52d4ff; }
+    .hero-copy { max-width: 610px; color: #e0edff; font-size: 1.06rem; margin-bottom: 24px; }
+    .searchbar { display: flex; align-items: center; gap: 12px; padding: 6px 7px 6px 16px; background: white; border-radius: 999px; max-width: 560px; box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+    .searchbar svg { color: #6b829c; flex: 0 0 auto; }
+    .searchbar input { min-width: 0; width: 100%; border: 0; outline: 0; color: var(--ink); background: transparent; padding: 8px 0; }
+    .searchbar .button { width: 44px; height: 44px; padding: 0; flex: 0 0 auto; }
+    .hero-art { min-height: 280px; display: grid; place-items: center; position: relative; }
+    .orbit-art { width: min(100%, 390px); aspect-ratio: 1; position: relative; display: grid; place-items: center; }
+    .orbit { position: absolute; width: 88%; height: 36%; border: 1.5px solid rgba(93,205,255,.85); border-radius: 50%; transform: rotate(32deg); box-shadow: 0 0 22px rgba(49,166,255,.1); }
+    .orbit.two { transform: rotate(-32deg); width: 88%; height: 40%; }
+    .orbit.three { transform: rotate(90deg); width: 88%; height: 35%; }
+    .sun { width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6b9, #ffb733 55%, #ff7b24); box-shadow: 0 0 26px #ffb33d, 0 0 75px rgba(255,175,46,.45); }
+    .planet { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #a7f1ff, #198af2 70%); box-shadow: 0 0 20px rgba(62,172,255,.7); }
+    .planet.p1 { top: 17%; right: 15%; }
+    .planet.p2 { bottom: 24%; left: 9%; width: 15px; height: 15px; }
+    .formula { position: absolute; color: rgba(206,230,255,.62); font-family: Georgia, serif; font-style: italic; font-size: clamp(1rem, 2vw, 1.45rem); transform: rotate(-8deg); }
+    .f1 { left: -3%; top: 16%; } .f2 { left: 0; bottom: 23%; } .f3 { right: -2%; bottom: 11%; }
+    section { padding: 76px 0; }
+    .section-head { max-width: 650px; margin-bottom: 28px; }
+    .section-head h2, .benefit-intro h2, .feature-copy h2 { font-size: clamp(1.75rem, 3vw, 2.3rem); letter-spacing: -.035em; line-height: 1.2; margin: 10px 0; }
+    .section-head p, .benefit-intro p, .feature-copy p { color: var(--muted); margin-bottom: 0; }
+    .topics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    .topic-card { padding: 22px 20px; border: 1px solid var(--line); border-radius: 17px; min-height: 205px; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+    .topic-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .topic-icon { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; margin-bottom: 15px; }
+    .topic-icon svg { width: 31px; height: 31px; }
+    .topic-card h3 { font-size: 1rem; margin-bottom: 7px; }
+    .topic-card p { color: var(--muted); font-size: .84rem; margin-bottom: 15px; }
+    .topic-arrow { margin-top: auto; font-size: 1.2rem; font-weight: 800; }
+    .blue-card { background: #f0f7ff; } .blue-card .topic-icon { background: #d8eaff; color: #1672dc; } .blue-card .topic-arrow { color: #1672dc; }
+    .amber-card { background: #fff8ee; } .amber-card .topic-icon { background: #ffebc8; color: #df8c00; } .amber-card .topic-arrow { color: #df8c00; }
+    .green-card { background: #effaf6; } .green-card .topic-icon { background: #cff4e5; color: #16a878; } .green-card .topic-arrow { color: #16a878; }
+    .purple-card { background: #f5f2ff; } .purple-card .topic-icon { background: #e5dcff; color: #6b4bd7; } .purple-card .topic-arrow { color: #6b4bd7; }
+    .pink-card { background: #fff2f6; } .pink-card .topic-icon { background: #ffdce7; color: #e94d78; } .pink-card .topic-arrow { color: #e94d78; }
+    .empty-state { display: none; margin-top: 20px; padding: 22px; background: var(--pale); border-radius: 14px; color: var(--muted); }
+    .benefits { background: linear-gradient(110deg, #f1f8ff, #f8fbff); }
+    .benefit-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
+    .benefit-items { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 22px; }
+    .benefit-item { display: flex; align-items: flex-start; gap: 14px; }
+    .benefit-icon { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; color: white; background: linear-gradient(140deg, #238af7, #4c70f5); }
+    .benefit-icon svg { width: 23px; height: 23px; }
+    .benefit-item h3 { margin: 2px 0 5px; font-size: .98rem; }
+    .benefit-item p { color: var(--muted); font-size: .86rem; margin: 0; }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+    .simulation-card { background: linear-gradient(145deg, #09284b, #064078); border-radius: 20px; color: white; padding: 25px; box-shadow: 0 20px 40px rgba(9,47,87,.18); }
+    .simulation-card h3 { margin-bottom: 5px; }
+    .simulation-card .small { color: #b7d0ec; font-size: .84rem; }
+    .sim-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 18px; margin-top: 20px; align-items: center; }
+    .control { margin-bottom: 17px; }
+    .control label { display: flex; justify-content: space-between; gap: 8px; color: #d9edff; font-size: .78rem; margin-bottom: 6px; }
+    input[type="range"] { width: 100%; accent-color: #49c5ff; cursor: pointer; }
+    .sim-graph { width: 100%; min-width: 0; border: 1px solid rgba(176,216,255,.2); border-radius: 12px; background: rgba(1,20,43,.25); }
+    .sim-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; text-align: center; }
+    .sim-stats span { display: block; color: #a8c8e8; font-size: .7rem; }
+    .sim-stats strong { font-size: .9rem; }
+    .feature-copy ul { padding: 0; list-style: none; margin: 22px 0 0; display: grid; gap: 10px; }
+    .feature-copy li { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); }
+    .check { color: #16ae80; font-weight: 900; }
+    .cta { padding: 0 0 70px; }
+    .cta-box { overflow: hidden; position: relative; text-align: center; color: white; border-radius: 22px; padding: 38px 22px; background: radial-gradient(ellipse at 10% 100%, rgba(62,180,255,.25), transparent 40%), linear-gradient(110deg, #0b315f, #0c4b91); }
+    .cta-box:before, .cta-box:after { content: ""; position: absolute; width: 280px; height: 100px; border: 1px solid rgba(105,203,255,.2); border-radius: 50%; transform: rotate(-18deg); }
+    .cta-box:before { left: -60px; bottom: -45px; } .cta-box:after { right: -60px; top: -40px; }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-box .eyebrow { color: #bfe8ff; }
+    .cta-box h2 { margin: 8px 0; font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -.03em; }
+    .cta-box p { color: #d7eaff; margin-bottom: 20px; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .footer-brand p { margin: 5px 0 0; color: var(--muted); font-size: .8rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 20px; color: var(--muted); font-size: .84rem; }
+    .copyright { color: var(--muted); font-size: .78rem; text-align: right; }
+    .hidden { display: none !important; }
+    @media (max-width: 900px) {
+      .navlinks { gap: 16px; }
+      .hero-grid { grid-template-columns: 1fr .7fr; }
+      .topics { grid-template-columns: repeat(3, 1fr); }
+      .benefit-grid { gap: 36px; }
+      .feature-grid { gap: 30px; }
+      .sim-layout { grid-template-columns: 1fr; }
+      .sim-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    }
+    @media (max-width: 680px) {
+      .container { width: min(100% - 30px, 540px); }
+      .nav { min-height: 64px; }
+      .menu-toggle { display: inline-grid; place-items: center; }
+      .navlinks { display: none; position: absolute; top: 64px; left: 0; right: 0; background: white; padding: 16px 22px 22px; border-bottom: 1px solid var(--line); box-shadow: var(--shadow); flex-direction: column; align-items: stretch; gap: 0; }
+      .navlinks.open { display: flex; }
+      .navlinks a { padding: 12px 0; }
+      .nav-actions .button { padding: 10px 14px; font-size: .85rem; }
+      .hero-grid { grid-template-columns: 1fr; padding-block: 48px 30px; gap: 10px; }
+      h1 { font-size: clamp(2.15rem, 10vw, 3rem); }
+      .hero-copy { font-size: .98rem; }
+      .hero-art { min-height: 210px; }
+      .orbit-art { width: 245px; }
+      .sun { width: 54px; height: 54px; }
+      .formula { font-size: .95rem; }
+      .f1 { left: 0; top: 5%; } .f2 { left: 0; bottom: 7%; } .f3 { right: 0; bottom: 0; }
+      section { padding: 56px 0; }
+      .topics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .topic-card { min-height: 190px; padding: 17px 15px; }
+      .topic-card h3 { font-size: .92rem; }
+      .topic-card p { font-size: .8rem; }
+      .benefit-grid, .feature-grid { grid-template-columns: 1fr; gap: 30px; }
+      .benefit-items { gap: 22px 14px; }
+      .benefit-item { gap: 10px; }
+      .benefit-icon { width: 42px; height: 42px; flex-basis: 42px; border-radius: 13px; }
+      .simulation-card { padding: 18px; }
+      .sim-controls { grid-template-columns: 1fr; gap: 0; }
+      .cta { padding-bottom: 48px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-links { gap: 12px 18px; }
+      .copyright { text-align: left; }
+    }
+    @media (max-width: 380px) {
+      .topics { grid-template-columns: 1fr; }
+      .topic-card { min-height: auto; }
+      .benefit-items { grid-template-columns: 1fr; }
+      .brand { font-size: 1.12rem; }
+      .nav-actions { gap: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#beranda" aria-label="FisikaKu, beranda">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8">
+            <ellipse cx="16" cy="16" rx="13" ry="5.2"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(120 16 16)"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/>
+          </svg>
+        </span>
+        <span>FisikaKu</span>
+      </a>
+      <nav class="navlinks" id="navlinks" aria-label="Navigasi utama">
+        <a class="active" href="#beranda">Beranda</a>
+        <a href="#materi">Materi</a>
+        <a href="#simulasi">Simulasi</a>
+        <a href="#latihan">Latihan Soal</a>
+        <a href="#tentang">Tentang</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-button" id="focus-search" aria-label="Fokus ke pencarian" title="Cari materi">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+        </button>
+        <a class="button button-primary" href="#materi">Mulai Belajar</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Buka menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Belajar fisika lebih mudah</span>
+          <h1>Jelajahi Dunia Fisika dengan Cara yang <span class="gradient-text">Menyenangkan</span></h1>
+          <p class="hero-copy">Temukan materi, rumus, contoh soal, dan simulasi interaktif untuk membantumu memahami fisika dengan lebih baik.</p>
+          <form class="searchbar" id="search-form" role="search">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+            <input id="search-input" type="search" placeholder="Cari materi, topik, atau rumus..." aria-label="Cari materi fisika">
+            <button class="button button-primary" type="submit" aria-label="Cari">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15M13 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+        <div class="hero-art" aria-label="Ilustrasi atom dan rumus fisika">
+          <span class="formula f1">F = ma</span><span class="formula f2">E = mc²</span><span class="formula f3">v = v₀ + at</span>
+          <div class="orbit-art" aria-hidden="true">
+            <div class="orbit"></div><div class="orbit two"></div><div class="orbit three"></div>
+            <div class="sun"></div><div class="planet p1"></div><div class="planet p2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="materi">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Jelajahi materi</span>
+          <h2>Pilih Topik yang Kamu Pelajari</h2>
+          <p>Materi fisika disusun berdasarkan cabang ilmu agar mudah ditemukan. Konten tiap topik bisa ditambahkan kemudian.</p>
+        </div>
+        <div class="topics" id="topic-list">
+          <a class="topic-card blue-card" href="#daftar-materi" data-search="mekanika gerak gaya energi hukum newton kinematika dinamika">
+            <span class="topic-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="16" cy="16" rx="13" ry="5.2"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(120 16 16)"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg></span>
+            <h3>Mekanika</h3><p>Gerak, gaya, energi, dan hukum-hukum Newton.</p><span class="topic-arrow">→</span>
+          </a>
+          <a class="topic-card amber-card" href="#daftar-materi" data-search="listrik magnet muatan arus medan magnet rangkaian listrik">
+            <span class="topic-icon"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M18.3 2 6.7 17.1c-.6.8 0 1.9 1 1.9h7.1L13 30l12.4-16c.6-.8 0-1.9-1-1.9h-7.1L18.3 2Z"/></svg></span>
+            <h3>Listrik dan Magnet</h3><p>Muatan, arus, medan magnet, dan rangkaian listrik.</p><span class="topic-arrow">→</span>
+          </a>
+          <a class="topic-card green-card" href="#daftar-materi" data-search="gelombang bunyi optik cahaya elektromagnetik">
+            <span class="topic-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 17c4-14 8-14 12 0s8 14 12 0 6-8 6-8"/><path d="M2 25c4-14 8-14 12 0s8 14 12 0 6-8 6-8" opacity=".45"/></svg></span>
+            <h3>Gelombang</h3><p>Gelombang mekanik, elektromagnetik, optik, dan bunyi.</p><span class="topic-arrow">→</span>
+          </a>
+          <a class="topic-card purple-card" href="#daftar-materi" data-search="termodinamika suhu kalor gas mesin kalor">
+            <span class="topic-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 19.5V6a4 4 0 0 1 8 0v13.5a8 8 0 1 1-8 0Z"/><path d="M16 11v13"/><circle cx="16" cy="25" r="3" fill="currentColor" stroke="none"/></svg></span>
+            <h3>Termodinamika</h3><p>Suhu, kalor, gas, dan hukum termodinamika.</p><span class="topic-arrow">→</span>
+          </a>
+          <a class="topic-card pink-card" href="#daftar-materi" data-search="fisika modern relativitas kuantum atom inti radioaktivitas">
+            <span class="topic-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="16" cy="16" rx="14" ry="7" transform="rotate(-30 16 16)"/><ellipse cx="16" cy="16" rx="14" ry="7" transform="rotate(30 16 16)"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg></span>
+            <h3>Fisika Modern</h3><p>Relativitas, kuantum, dan struktur atom.</p><span class="topic-arrow">→</span>
+          </a>
+        </div>
+        <div class="empty-state" id="empty-state">Topik belum ditemukan. Coba kata kunci lain, misalnya “energi”, “listrik”, atau “gelombang”.</div>
+      </div>
+    </section>
+
+    <section class="benefits" id="tentang">
+      <div class="container benefit-grid">
+        <div class="benefit-intro">
+          <span class="eyebrow">Mengapa FisikaKu?</span>
+          <h2>Belajar Fisika Jadi Lebih Efektif</h2>
+          <p>Materi dirancang agar konsep, persamaan, dan fenomena nyata saling terhubung. Bukan sekadar menghafal rumus lalu berharap angka-angkanya berbaik hati.</p>
+        </div>
+        <div class="benefit-items">
+          <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 7v14M12 7C8 3 3 4 3 4v14s5-1 9 3M12 7c4-4 9-3 9-3v14s-5-1-9 3"/></svg></span><div><h3>Materi Terstruktur</h3><p>Teori, rumus, contoh soal, dan pembahasan.</p></div></div>
+          <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="m8 21 4-4 4 4M9 10l2 2 4-4"/></svg></span><div><h3>Simulasi Interaktif</h3><p>Eksperimen virtual untuk memahami konsep.</p></div></div>
+          <div class="benefit-item" id="latihan"><span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span><div><h3>Latihan Soal</h3><p>Soal pilihan ganda dan uraian dengan pembahasan.</p></div></div>
+          <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg></span><div><h3>Akses Di Mana Saja</h3><p>Bisa dibuka di komputer, tablet, atau ponsel.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="simulasi">
+      <div class="container feature-grid">
+        <div class="simulation-card">
+          <h3>Gerak Parabola</h3>
+          <p class="small">Ubah kecepatan awal dan sudut peluncuran untuk melihat lintasan proyektil.</p>
+          <div class="sim-layout">
+            <div class="sim-controls">
+              <div class="control"><label for="speed">Kecepatan awal <span><b id="speed-value">20</b> m/s</span></label><input id="speed" type="range" min="5" max="40" value="20"></div>
+              <div class="control"><label for="angle">Sudut peluncuran <span><b id="angle-value">45</b>°</span></label><input id="angle" type="range" min="15" max="75" value="45"></div>
+              <button class="button button-primary" id="run-sim" type="button">▶ Jalankan simulasi</button>
+            </div>
+            <div>
+              <svg class="sim-graph" id="trajectory" viewBox="0 0 320 190" role="img" aria-label="Grafik lintasan gerak parabola">
+                <defs><pattern id="grid" width="32" height="25" patternUnits="userSpaceOnUse"><path d="M32 0H0V25" fill="none" stroke="#6d9cc5" stroke-opacity=".22" stroke-width=".7"/></pattern></defs>
+                <rect width="320" height="190" fill="url(#grid)"/>
+                <path d="M24 12V164H305" fill="none" stroke="#b8d8f4" stroke-width="1.2"/>
+                <path id="path-line" d="M24 164 Q160 -50 296 164" fill="none" stroke="#eaf6ff" stroke-width="1.8" stroke-dasharray="5 5"/>
+                <circle id="projectile" cx="160" cy="57" r="5" fill="#ffb43d" stroke="#fff0bd" stroke-width="1.5"/>
+                <path id="launch-line" d="M24 164l30 -30" stroke="#45c4ff" stroke-width="2"/>
+              </svg>
+              <div class="sim-stats">
+                <div><span>Jarak maksimum</span><strong id="range-value">40,8 m</strong></div>
+                <div><span>Tinggi maksimum</span><strong id="height-value">10,2 m</strong></div>
+                <div><span>Waktu terbang</span><strong id="time-value">2,9 s</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="eyebrow">Contoh fitur</span>
+          <h2>Simulasi dan Visualisasi Konsep Fisika</h2>
+          <p>Teori jadi lebih mudah dipahami saat siswa bisa mengubah variabel dan mengamati akibatnya. Ini contoh sederhana yang nanti bisa dikembangkan.</p>
+          <ul>
+            <li><span class="check">✓</span> Simulasi gerak parabola dan fenomena lainnya</li>
+            <li><span class="check">✓</span> Grafik interaktif yang bisa diubah</li>
+            <li><span class="check">✓</span> Visualisasi konsep dalam bentuk animasi</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="daftar-materi">
+      <div class="container cta-box">
+        <span class="eyebrow">Siap mulai belajar?</span>
+        <h2>Jelajahi Materi Fisika Sekarang</h2>
+        <p>Materi, simulasi, dan latihan soal akan ditambahkan secara bertahap.</p>
+        <a class="button button-light" href="#materi">Lihat Topik Materi <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#beranda"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="16" cy="16" rx="13" ry="5.2"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(120 16 16)"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/></svg></span><span>FisikaKu</span></a>
+        <p>Belajar hari ini, memahami alam esok hari.</p>
+      </div>
+      <nav class="footer-links" aria-label="Navigasi footer"><a href="#beranda">Beranda</a><a href="#materi">Materi</a><a href="#simulasi">Simulasi</a><a href="#latihan">Latihan Soal</a><a href="#tentang">Tentang</a></nav>
+      <div class="copyright">© <span id="year">2026</span> FisikaKu. Semua hak dilindungi.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Menu navigasi untuk layar kecil
+    const menuToggle = document.getElementById('menu-toggle');
+    const navlinks = document.getElementById('navlinks');
+    menuToggle.addEventListener('click', () => {
+      const opened = navlinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(opened));
+    });
+    navlinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navlinks.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }));
+
+    // Pencarian sederhana: menyaring kartu cabang fisika
+    const searchInput = document.getElementById('search-input');
+    const topicCards = [...document.querySelectorAll('.topic-card')];
+    const emptyState = document.getElementById('empty-state');
+    function filterTopics() {
+      const query = searchInput.value.trim().toLocaleLowerCase('id');
+      let visible = 0;
+      topicCards.forEach(card => {
+        const text = (card.innerText + ' ' + card.dataset.search).toLocaleLowerCase('id');
+        const match = text.includes(query);
+        card.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+      emptyState.style.display = visible ? 'none' : 'block';
+      document.getElementById('materi').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.getElementById('search-form').addEventListener('submit', event => {
+      event.preventDefault();
+      filterTopics();
+    });
+    searchInput.addEventListener('input', () => {
+      if (!searchInput.value.trim()) {
+        topicCards.forEach(card => card.classList.remove('hidden'));
+        emptyState.style.display = 'none';
+      }
+    });
+    document.getElementById('focus-search').addEventListener('click', () => {
+      document.getElementById('beranda').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => searchInput.focus(), 300);
+    });
+
+    // Simulasi gerak parabola ideal, tanpa hambatan udara, g = 9,8 m/s^2
+    const speed = document.getElementById('speed');
+    const angle = document.getElementById('angle');
+    const speedValue = document.getElementById('speed-value');
+    const angleValue = document.getElementById('angle-value');
+    const rangeValue = document.getElementById('range-value');
+    const heightValue = document.getElementById('height-value');
+    const timeValue = document.getElementById('time-value');
+    const pathLine = document.getElementById('path-line');
+    const projectile = document.getElementById('projectile');
+    const launchLine = document.getElementById('launch-line');
+    const runSim = document.getElementById('run-sim');
+    function updateSimulation(animate = false) {
+      const v = Number(speed.value);
+      const theta = Number(angle.value) * Math.PI / 180;
+      const g = 9.8;
+      const range = (v * v * Math.sin(2 * theta)) / g;
+      const maxHeight = (v * v * Math.sin(theta) ** 2) / (2 * g);
+      const flightTime = (2 * v * Math.sin(theta)) / g;
+      const x0 = 24, y0 = 164, width = 272, height = 135;
+      const xScale = width / Math.max(range, 1);
+      const yScale = height / Math.max(maxHeight, 1);
+      let d = '';
+      for (let i = 0; i <= 60; i++) {
+        const t = flightTime * i / 60;
+        const x = x0 + (v * Math.cos(theta) * t) * xScale;
+        const y = y0 - (v * Math.sin(theta) * t - .5 * g * t * t) * yScale;
+        d += `${i === 0 ? 'M' : 'L'}${x.toFixed(2)} ${y.toFixed(2)} `;
+      }
+      pathLine.setAttribute('d', d);
+      const launchLength = 30;
+      launchLine.setAttribute('d', `M${x0} ${y0} l${(launchLength * Math.cos(theta)).toFixed(1)} ${(-launchLength * Math.sin(theta)).toFixed(1)}`);
+      speedValue.textContent = v;
+      angleValue.textContent = angle.value;
+      rangeValue.textContent = range.toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' m';
+      heightValue.textContent = maxHeight.toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' m';
+      timeValue.textContent = flightTime.toLocaleString('id-ID', { maximumFractionDigits: 2 }) + ' s';
+      if (animate) {
+        projectile.setAttribute('cx', x0);
+        projectile.setAttribute('cy', y0);
+        const start = performance.now();
+        const duration = 1100;
+        function frame(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const t = flightTime * p;
+          const x = x0 + v * Math.cos(theta) * t * xScale;
+          const y = y0 - (v * Math.sin(theta) * t - .5 * g * t * t) * yScale;
+          projectile.setAttribute('cx', x);
+          projectile.setAttribute('cy', y);
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      } else {
+        projectile.setAttribute('cx', x0 + range * xScale / 2);
+        projectile.setAttribute('cy', y0 - maxHeight * yScale);
+      }
+    }
+    speed.addEventListener('input', () => updateSimulation());
+    angle.addEventListener('input', () => updateSimulation());
+    runSim.addEventListener('click', () => updateSimulation(true));
+    updateSimulation();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
